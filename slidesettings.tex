@@ -1,0 +1,205 @@
+\usepackage{pxjahyper}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,bm,ascmac}
+\usepackage{ascmac}
+\usepackage{physics}
+\usepackage{tikz}
+\usepackage{gnuplot-lua-tikz}
+\usetikzlibrary{intersections,calc,arrows.meta,cd,automata,positioning}
+\usepackage{circuitikz}
+\usepackage{here}
+\usepackage{siunitx}
+\usepackage{multicol,multirow}
+\usepackage{systeme}
+\usepackage[version=3]{mhchem}
+\usepackage{chemfig}
+\usepackage{url}
+\usepackage{braket}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{otf}
+\usepackage{ulem}
+\usepackage{stmaryrd}
+\usepackage{listings}
+\usepackage{bussproofs}
+\usepackage{mathtools}
+\usepackage{cite}
+\usepackage{docmute}
+\usepackage{xcolor}
+\usepackage{wasysym}
+\DeclareMathOperator{\Sinarc}{\mathrm{Sin}^{-1}}
+\DeclareMathOperator{\Cosarc}{\mathrm{Cos}^{-1}}
+\DeclareMathOperator{\Tanarc}{\mathrm{Tan}^{-1}}
+% \DeclareMathOperator{\Real}{\bm{R}}
+% \DeclareMathOperator{\Complex}{\bm{C}}
+% \DeclareMathOperator{\Rational}{\bm{Q}}
+% \DeclareMathOperator{\Natural}{\bm{N}}
+% \DeclareMathOperator{\Integer}{\bm{Z}}
+\DeclareBoldMathCommand{\Real}{R}
+\DeclareBoldMathCommand{\Complex}{C}
+\DeclareBoldMathCommand{\Rational}{Q}
+\DeclareBoldMathCommand{\Natural}{N}
+\DeclareBoldMathCommand{\Integer}{Z}
+\DeclareMathOperator{\Ker}{\mathrm{Ker}}
+\DeclareMathOperator{\diffset}{\backslash}
+\DeclareMathOperator{\define}{\overset{\text{def}}{\Longleftrightarrow}}
+\newcommand{\typed}{\!:\!}
+\newcommand{\Var} {\mathord{\mathbf{Var}}}
+\newcommand{\TVar}{\mathord{\mathbf{TVar}}}
+\newcommand{\Type}{\mathord{\mathbf{Type}}}
+\newcommand{\Term}{\mathord{\mathbf{\Lambda}}}
+\newcommand{\Asn}{\mathord{\mathbf{Asn}}}
+\newcommand{\Cont}{\mathord{\mathbf{Cont}}}
+\newcommand{\Church}{\mathord{\mathbf{M}}}
+\newcommand{\Sub}  {\mathord{\mathrm{Sub}}}
+\newcommand{\FV}  {\mathord{\mathrm{FV}}}
+\newcommand{\BV}  {\mathord{\mathrm{BV}}}
+\newcommand{\vars}{\mathcal{V}}
+\newcommand{\tvars}{\mathbb{V}}
+\newcommand{\terms}{\mathcal{T}}
+\newcommand{\types}{\mathbb{T}}
+\newcommand{\contexts}{\mathfrak{G}}
+\newcommand{\ID}  {(\mathrm{ID})}
+\newcommand{\WEAK}{(\mathrm{WEAK})}
+\newcommand{\EXC}{(\mathrm{EXC})}
+\newcommand{\VAR} {(\mathrm{VAR})}
+\newcommand{\APP} {(\mathrm{APP})}
+\newcommand{\BND} {(\mathrm{BND})}
+\newcommand{\INST}{(\mathrm{INST})}
+\newcommand{\GEN} {(\mathrm{GEN})}
+\newcommand{\tbeta}{\to_\beta}
+\newcommand{\ttbeta}{\twoheadrightarrow_\beta}
+\newcommand{\dom}{\mathord{\mathrm{dom}}}
+\newcommand{\Typ}{\mathord{\mathrm{Typ}}}
+\newcommand{\SN}{\mathsf{SN}}
+\newcommand{\SAT}{\mathsf{SAT}}
+\newcommand{\Bool}{\mathbb{B}}
+\newcommand{\TCP}{\mathbf{TCP}}
+\newcommand{\SUP}{\mathbf{SUP}}
+\newcommand{\Ltt}{\mathtt{L}}
+\newcommand{\Rtt}{\mathtt{R}}
+\newcommand{\Stt}{\mathtt{S}}
+% \newcommand{\init}{\mathrm{init}}
+\newcommand{\init}{0}
+\newcommand{\acc}{\mathrm{acc}}
+\newcommand{\rej}{\mathrm{rej}}
+\newcommand{\bak}{\mathrm{bak}}
+\newcommand{\textspace}{\text{\textvisiblespace}\,}
+\newcommand{\terminate}{\!\downarrow}
+\newcommand{\nterminate}{\!\uparrow}
+\newcommand{\problems}{\mathcal{P}_\Sigma}
+\newcommand{\classified}{\in}
+\newcommand{\Halt}{\mathtt{Halt}}
+\newcommand{\ord}{\mathord{\mathrm{ord}}}
+\newcommand{\OrdTypes}{\mathord{\mathrm{OrdTypes}}}
+\newcommand{\power}{\mathord{\mathfrak{P}}}
+
+\DeclarePairedDelimiter{\interpret}{\llbracket}{\rrbracket}
+\DeclarePairedDelimiter{\encode}{\langle}{\rangle}
+
+\DeclareMathOperator{\betared}{\rightarrow_\beta}
+\DeclareMathOperator{\lbetared}{\longrightarrow_\beta}
+\DeclareMathOperator{\tbetared}{\twoheadrightarrow_\beta}
+\newcommand{\nat}{\mathtt{nat}}
+\newcommand{\snat}{\nat_\sigma}
+\newcommand{\CSet}{{\mathbf{Set}}}
+\DeclareMathOperator{\Hom}{{\mathrm{Hom}}}
+\newcommand{\lamto}{{\lambda\!\!\to}}
+\newcommand{\lamP}{\lambda\mathrm{P}}
+\newcommand{\lamT}{\lambda 2}
+\newcommand{\lamPT}{\lambda\mathrm{P}2}
+\newcommand{\lamo}{\lambda\underline{\omega}}
+\newcommand{\lamPo}{\lambda\mathrm{P}\underline{\omega}}
+\newcommand{\lamO}{\lambda\omega}
+\newcommand{\lamC}{\lambda\mathrm{C}}
+
+\DeclareMathOperator{\pterm}{\mathbf{Pt}}
+\newcommand{\PROP}{\textbf{PROP}}
+\newcommand{\PRED}{\textbf{PRED}}
+\newcommand{\PROPT}{\textbf{PROP2}}
+\newcommand{\PREDT}{\textbf{PRED2}}
+\newcommand{\PROPo}{\textbf{PROP}\underline{\omega}}
+\newcommand{\PREDo}{\textbf{PRED}\underline{\omega}}
+\newcommand{\PROPO}{\textbf{PROP}\omega}
+\newcommand{\PREDO}{\textbf{PRED}\omega}
+
+\newcommand{\Yes}{\mathtt{Yes}}
+\newcommand{\No}{\mathtt{No}}
+
+\theoremstyle{definition}
+\setbeamertemplate{theorems}[numbered]
+\newtheorem{dfn}{定義}
+\newtheorem*{ndfn}{定義}
+\newtheorem{axiom}{公理}
+\newtheorem{thm}{定理}
+\newtheorem{prop}{命題}
+\newtheorem{lem}{補題}
+\newtheorem{cor}{系}
+\newtheorem{ex}{例}
+\newtheorem{question}{問}
+\newtheorem{caution}{注意}
+\newtheorem{notation}{記法}
+\newtheorem{conjecture}{予想}
+
+
+\usepackage{pifont}
+\lstset{
+    language={C++}, %プログラミング言語によって変える。
+    basicstyle={\ttfamily\small},
+    %% breaklines=true, %折り返し
+}
+\lstset{
+    basicstyle={\ttfamily},
+    identifierstyle={\small},
+    commentstyle={\smallitshape},
+    keywordstyle={\color{blue}\small\bfseries},
+    commentstyle={\color{gray}\small},
+    stringstyle={\color{red}\small},
+    tabsize=2,
+    frame={tb},
+    breaklines=true,
+    columns=[l]{fullflexible},
+    numbers=left,
+    xrightmargin=0zw,
+    xleftmargin=3zw,
+    numberstyle={\scriptsize},
+    stepnumber=1,
+    numbersep=1zw,
+    lineskip=-0.5ex
+}
+
+\newenvironment<>{varblock}[2][\textwidth]{%
+    \setlength{\textwidth}{#1}
+    \begin{actionenv}#3%
+        \def\insertblocktitle{#2}%
+        \par%
+    \usebeamertemplate{block begin}}
+    {\par%
+        \usebeamertemplate{block end}%
+\end{actionenv}}
+
+\newenvironment<>{varalertblock}[2][\textwidth]{%
+    \setlength{\textwidth}{#1}
+    \begin{actionenv}#3%
+        \def\insertblocktitle{#2}%
+        \par%
+    \usebeamertemplate{block alerted begin}}
+    {\par%
+        \usebeamertemplate{block alerted end}%
+\end{actionenv}}
+
+\newenvironment{scprooftree}[1]%
+  {\gdef\scalefactor{#1}\begin{center}\proofSkipAmount \leavevmode}%
+  {\scalebox{\scalefactor}{\DisplayProof}\proofSkipAmount \end{center} }
+
+\usetheme{Madrid}
+% \usecolortheme{crane}
+\usecolortheme{default}
+\useinnertheme{}
+\useoutertheme{}
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{items}[default]
+\setbeamertemplate{navigation symbols}{}
+\renewcommand{\baselinestretch}{1}
+
+\setbeamercolor{alerted text}{fg=orange}

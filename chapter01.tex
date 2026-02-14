@@ -1,0 +1,402 @@
+\documentclass[uplatex,a4paper,dvipdfmx,aspectratio=169,11pt]{beamer}
+
+\input{slidesettings.tex}
+
+\title[内田集合位相ゼミ2]{数理研ゼミ：内田伏一『集合と位相』}
+\subtitle{第1章 集合と写像}
+\author{型推栄}
+\institute[M1]{大学院情報理工学研究科 I専攻 岡本吉央研究室 M1}
+\date{2026/02/19}
+
+\renewcommand{\thefootnote}{*\arabic{footnote}}
+% \setbeamertemplate{enumerate items}{(\arabic{enumi})}
+
+\usetheme{Madrid}
+% \usecolortheme{crane}
+\useinnertheme{}
+\useoutertheme{}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{items}[default]
+\setbeamertemplate{navigation symbols}{}
+\renewcommand{\baselinestretch}{1}
+
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\begin{frame}[fragile]{はじめに}
+    \begin{block}{本書の目的}
+        \Large \alert{集合}と\alert{位相}に関する入門
+    \end{block}
+
+    \bigskip
+
+    \begin{itemize}
+        \item 90分$\times$25回の講義で7割程度の内容が扱われることを念頭に置いている
+        \item われわれのゼミでそれだけの量は扱えない
+            \begin{itemize}
+                \item ある程度取捨選択をしながら進めていく
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{はじめに}
+    \fbox{\large 本書の構成}
+    \medskip
+    \begin{enumerate}
+        \item 集合と写像
+            \begin{itemize}
+                \item 今日はここをやります
+            \end{itemize}
+        \item 濃度の大小と二項関係
+        \item 整列集合と選択公理
+        \item 距離空間
+        \item 位相空間
+        \item 積空間と商空間
+        \item 位相的性質
+        \item 完備距離空間
+        \item 写像空間
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{第1章 集合と写像}
+    \begin{enumerate}[\S 1]
+        \item 集合とは
+        \item 集合の演算
+        \item ド・モルガンの法則
+        \item 直積集合
+        \item 写像
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{集合}
+        「もの」の集まりで，\underline{その範囲がはっきり定まっている}もの
+    \end{block}
+    あるもの$a$と集まり$A$が与えられたとき，$a$が$A$に入っているかを主観なく判断できるか？
+    \begin{itemize}
+        \item 「自然数全体」や「日本人全体」は集合である
+        \item 「大きい自然数全体」や「美人全体」は集合でない 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{記法}
+        $A$を集合とする．
+        \begin{itemize}
+            \item $A$を構成する「もの」一つ一つを，$A$の\alert{元}または\alert{要素}という．
+            \item $a$が$A$の元であるとき，$a$は$A$に\alert{属する}ないし\alert{含まれる}といい，$a \in A$で表す．
+            \item $a$が$A$の元でないとき，$a \notin A$と書く（以後，他の記法も同様）．
+        \end{itemize}
+    \end{block}
+    $a \in A$は向きを反転させて$A \ni a$とも書ける．
+
+    % \begin{exampleblock}{例1.1}
+    %     自然数全体の集合を$\Natural$と書く．すると
+    %     $1 \in \Natural,\ 23 \in \Natural,\ \Natural \ni 7$だが，$-1 \notin \Natural,\ \sqrt 2 \notin \Natural$．
+    % \end{exampleblock}
+    % 他にも以下の記法を使う．
+    % % \begin{description}[$\Integer$:]
+    % %     \item[$\Integer$:] 整数全体の集合
+    % %     \item[$\Rational$:] 有理数全体の集合
+    % %     \item[$\Real$:] 実数全体の集合
+    % %     \item[$\Complex$:] 複素数全体の集合
+    % % \end{description}
+    % \begin{columns}
+    %     \begin{column}{0.3\linewidth}
+    %         \begin{description}[$\Integer$:]
+    %             \item[$\Integer$:] 整数全体の集合
+    %             \item[$\Rational$:] 有理数全体の集合
+    %         \end{description}
+    %     \end{column}
+    %     \begin{column}{0.5\linewidth}
+    %         \begin{description}[$\Integer$:]
+    %             \item[$\Real$:] 実数全体の集合
+    %             \item[$\Complex$:] 複素数全体の集合
+    %         \end{description}
+    %     \end{column}
+    % \end{columns}
+    \begin{block}{記法}
+        集合$A$と$B$が同じ構成要素から成るとき，$A = B$と書く．
+    \end{block}
+    \medskip
+
+    $A = B$であることは，言い換えれば
+    \begin{itemize}
+        \item $x$が$A$の元であるならば，$x$が$B$の元でもあること
+        \item $x$が$B$の元であるならば，$x$が$A$の元でもあること
+    \end{itemize}
+    がそれぞれ成り立つことである．
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{集合の表し方}
+        集合を表すための2通りの表記を導入する．
+        \begin{enumerate}
+            \item 元をすべて列挙して波括弧で囲う
+                \begin{itemize}
+                    \item[ex.] 自然数2, 5, 7 から成る集合は$\qty{2, 5, 7}$
+                \end{itemize}
+            \item ある条件$P$を満たすもの全体$x$として集合を定め，$\Set{x | P(x)}$で表す
+                \begin{itemize}
+                    \item[ex.] 1億以下の自然数全体は$\Set{x | \text{$x$は自然数，$x \le 10000000$}}$
+                        \begin{itemize}
+                            \item $\Set{x \in \Natural | x \le 100000000}$とも書く
+                    \end{itemize}
+                \end{itemize}
+        \end{enumerate}
+    \end{block}
+    \medskip
+
+    一般的には，これらの表記はそれぞれ
+    \begin{enumerate}
+        \item 外延的表記
+        \item 内包的表記
+    \end{enumerate}
+    と呼ばれることが多い．
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{空集合}
+        元を一つも含まない集合を\alert{空集合}といい，$\varnothing$で表す．
+    \end{block}
+    \begin{itemize}
+        \item $\varnothing$ (\texttt{\textbackslash varnothing}) でなく $\emptyset$ (\texttt{\textbackslash emptyset}) や $\qty{}$ を使う流儀もある
+            \begin{itemize}
+                \item 古い文献では$\varnothing$，最近は$\emptyset$が多い？（体感）
+            \end{itemize}
+    \end{itemize}
+    \medskip
+
+    \begin{block}{集合の大きさ}
+        元を有限個しか持たない集合を\alert{有限集合}といい，そうでないものを\alert{無限集合}という．
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{代表的な集合}
+        例1.1で自然数全体の集合を$\Natural$と表した．他にも以下の記法を使う．
+        \begin{columns}
+            \begin{column}{0.3\linewidth}
+                \begin{description}[$\Integer$:]
+                    \item[$\Integer$:] 整数全体の集合
+                    \item[$\Rational$:] 有理数全体の集合
+                \end{description}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{description}[$\Integer$:]
+                    \item[$\Real$:] 実数全体の集合
+                    \item[$\Complex$:] 複素数全体の集合
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+
+    \begin{itemize}
+        \item 黒板太字（$\mathbb N, \mathbb Z, \mathbb R$など）を使うことも多い
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{部分集合}
+        $A, B$を集合とする．
+        \begin{itemize}
+            \item $A$の任意の元が$B$に含まれるとき，$A$は$B$の\alert{部分集合}であるといい，\\
+                $A \subset B$や$B \supset A$と書く．
+            \item $A$は$B$に\alert{包まれる}とも言う．
+            \item 特に$A \subset B$かつ$A \neq B$であるとき，$A$は$B$の\alert{真部分集合}であるといい，
+                $A \subsetneqq B$と書く．
+        \end{itemize}
+    \end{block}
+
+    \begin{itemize}
+        \item $A \subset B$を明示的に$A \subseteqq B$と書く流儀もある
+    \end{itemize}
+
+    \begin{block}{性質}
+        \begin{enumerate}
+            \item $A \subset A$である．
+            \item $A \subset B$かつ$B \subset A$ならば$A = B$である．
+            \item $A \subset B$かつ$B \subset C$ならば$A \subset C$である．
+        \end{enumerate}
+    \end{block}
+
+\end{frame}
+
+% \begin{frame}[fragile]{\S 1 集合とは}
+%     \begin{block}{部分集合}
+%         $A \subset B\ \define$\ $A$の任意の元が$B$に含まれる
+%     \end{block}
+%
+%     \begin{block}{性質}
+%         \begin{enumerate}
+%             \item $A \subset A$である．
+%             \item $A \subset B$かつ$B \subset A$ならば$A = B$である．
+%             \item $A \subset B$かつ$B \subset C$ならば$A \subset C$である．
+%         \end{enumerate}
+%     \end{block}
+%     \fbox{証明} \\
+%     1, 2 は定義より明らか． \\
+%     $x \in A$を任意に取ると，$A \subset B$より$x \in B$．さらに$B \subset C$より$x \in C$．よって$A \subset C$．\qed
+% \end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{部分集合}
+        $A \subset B\ \define$\ $A$の任意の元が$B$に含まれる
+    \end{block}
+    \medskip
+    
+    空集合$\varnothing$は，任意の集合の部分集合である．
+    \begin{itemize}
+        \item 対偶律より「$x \in A$ならば$x \in B$」は「$x \notin B$ならば$x \notin A$」と同値
+        \item どんな$B$と$x \notin B$を取っても$x \notin \varnothing$を満たすので，$\emptyset \subset B$が言える
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{巾集合}
+        集合$A$の部分集合全体を$A$の\alert{巾集合}といい，$\power(A)$で表す．
+    \end{block}
+    \medskip
+    
+    空集合$\varnothing$は，任意の集合の部分集合である．
+    \begin{itemize}
+        \item 対偶律より「$x \in A$ならば$x \in B$」は「$x \notin B$ならば$x \notin A$」と同値
+        \item どんな$B$と$x \notin B$を取っても$x \notin \varnothing$を満たすので，$\emptyset \subset B$が言える
+    \end{itemize}
+    \bigskip
+
+    一般に，その元がふたたび集合であるような集合を\alert{集合族}と呼ぶ．
+\end{frame}
+
+\begin{frame}[fragile]{\S 2 集合の演算}
+    \begin{block}{集合の演算}
+        $A, B$を集合とする．
+        \begin{itemize}
+            \item $A$と$B$の元を寄せ集めてできる集合を$A$と$B$の\alert{和集合}といい，$A \cup B$で表す．
+            \item $A$にも$B$にも含まれる元から成る集合を$A$と$B$の\alert{共通部分}といい，$A \cap B$で表す．
+            \item $A$に含まれ，$B$に含まれない元から成る集合を$A$と$B$の\alert{差部分}といい，$A - B$で表す．
+        \end{itemize}
+    \end{block}
+
+    $A \cap B$が空集合であるとき，$A$と$B$は\alert{交わらない}といい，さもなくば\alert{交わる}という．\\
+    $A$と$B$が交わらないとき，$A \cup B$を$A$と$B$の\alert{非交和}ないし\alert{直和}という．
+\end{frame}
+
+\begin{frame}[fragile]{\S 2 集合の演算}
+    \begin{block}{定理2.1}
+        集合$A, B$について以下が成り立つ．
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}[(1)]
+                    \item $A \subset A \cup B$
+                    \item $B \subset A \cup B$
+                    \item $A \cup B = B \cup A$
+                \end{enumerate}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}
+                    \item[(4)] $A \cap B \subset A$
+                    \item[(5)] $A \cap B \subset B$
+                    \item[(6)] $A \cap B = B \cap A$
+                \end{enumerate}
+            \end{column}
+        \end{columns}
+    \end{block}
+    \medskip
+    \fbox{証明} \\
+    \medskip
+
+    (1) のみ示す．元$x \in A$を任意に取ると，定義より$x$は$A \cup B$の元でもある．\\したがって$A \subset A \cup B$．\qed
+
+    \medskip
+    \begin{block}{部分集合}
+        $A \subset B\ \define$\ $A$の任意の元が$B$に含まれる
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 2 集合の演算}
+    \begin{block}{定理2.2}
+        集合$A, B, C, D$について以下が成り立つ．
+        \begin{enumerate}[(1)]
+            \item $A \subset C$かつ$B \subset C$ならば，$A \cup B \subset C$である．
+            \item $D \subset A$かつ$D \subset B$ならば，$D \subset A \cap B$である．
+        \end{enumerate}
+    \end{block}
+    \medskip
+    \fbox{証明} \\
+    \medskip
+    (1) のみ示す．$x \in A \cup B$を任意に取ると，$x$は$A$の元であるか，または$B$の元である．\\
+    どちらの場合にも$x \in C$が成り立つから，$A \cup B \subset C$．\qed
+
+    \begin{block}{定理2.3（結合法則）}
+        集合$A, B, C$について以下が成り立つ．
+        \begin{enumerate}[(1)]
+            \item $(A \cup B) \cup C = A \cup (B \cup C)$
+            \item $(A \cap B) \cap C = A \cap (B \cap C)$
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 2 集合の演算}
+    \begin{block}{定理2.1（交換法則）}
+        \begin{enumerate}[(3)]
+            \item[(3)] $A \cup B = B \cup A$
+            \item[(6)] $A \cap B = B \cap A$
+        \end{enumerate}
+    \end{block}
+    \begin{block}{定理2.3（結合法則）}
+        \begin{enumerate}[(1)]
+            \item $(A \cup B) \cup C = A \cup (B \cup C)$
+            \item $(A \cap B) \cap C = A \cap (B \cap C)$
+        \end{enumerate}
+    \end{block}
+    \smallskip
+
+    和集合や共通部分を書くうえで，集合の順番やカッコの位置はどのように書いても問題ない．
+\end{frame}
+
+\begin{frame}[fragile]{\S 2 集合の演算}
+    \begin{block}{定理2.4（分配法則）}
+        集合$A, B, C$について以下が成り立つ．
+        \begin{enumerate}[(1)]
+            \item $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+            \item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+        \end{enumerate}
+    \end{block}
+    \smallskip
+    \fbox{証明} (1) のみ示す．\\
+    \smallskip
+    \begin{description}[($\subset$)]
+        \item[($\subset$)] $x \in A \cup (B \cap C)$と仮定すると，以下の2通りがありうる．%そのどちらにおいても$x \in (A \cup B) \cap (A \cup C)$となることを示す．
+            \begin{description}[$x \in B \cap C$:]
+                \item[$x \in A$:] 直ちに$x \in A \cup B$と$x \in A \cup C$が従うので，$x \in (A \cup B) \cap (A \cup C)$．
+                \item[$x \in B \cap C$:] $x \in B$より$x \in A \cup B$．$x \in C$より$x \in A \cup C$．よって$x \in (A \cup B) \cap (A \cup C)$．
+            \end{description}
+        \item[($\supset$)] $x \in (A \cup B) \cap (A \cup C)$と仮定する．このとき以下の4通りが考えられる:\\
+            (a) $x \in A$, $x \in A$\ (b) $x \in A$, $x \in C$\ (c) $x \in B$, $x \in A$ (d) $x \in B$, $x \in C$. \\
+            (a), (b), (c) の場合は$x \in A$，(d) の場合は $x \in B \cap C$であるから，$x \in A \cup (B \cap C)$．\qed
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 3 ド・モルガンの法則}
+    \begin{block}{定理3.1（ド・モルガンの法則）}
+        集合$X, A, B$について以下が成り立つ．
+        \begin{enumerate}[(1)]
+            \item $X - (A \cup B) = (X - A) \cap (X - B)$
+            \item $X - (A \cap B) = (X - A) \cup (X - B)$
+        \end{enumerate}
+    \end{block}
+    \smallskip
+    \fbox{証明} (1) のみ示す．\\
+    \smallskip
+    \begin{description}[($\subset$)]
+        \item[($\subset$)] $x \in X - (A \cup B)$と仮定する．すなわち$x \notin A \cup B$であるから，$x \notin A$かつ$x \notin B$，\\
+            また$x \in X$であるから$x \in X - A$かつ$x \in X - B$．よって$x \in (X - A) \cap (X - B)$．
+        \item[($\supset$)] 同様．\qed
+    \end{description}
+\end{frame}
+
+\end{document}
