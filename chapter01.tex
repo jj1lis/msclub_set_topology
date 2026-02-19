@@ -132,6 +132,23 @@
 \end{frame}
 
 \begin{frame}[fragile]{\S 1 集合とは}
+    \begin{block}{記法}
+        $A$を集合とする．
+        \begin{itemize}
+            \item $A$を構成する「もの」一つ一つを，$A$の\alert{元}または\alert{要素}という．
+            \item $a$が$A$の元であるとき，$a$は$A$に\alert{属する}ないし\alert{含まれる}といい，$a \in A$で表す．
+            \item $a$が$A$の元でないとき，$a \notin A$と書く（以後，他の記法も同様）．
+        \end{itemize}
+    \end{block}
+    $a \in A$は向きを反転させて$A \ni a$とも書ける．
+
+    \begin{exampleblock}{例1.1}
+        自然数全体の集合を$\Natural$と書く．すると
+        $1 \in \Natural,\ 23 \in \Natural,\ \Natural \ni 7$だが，$-1 \notin \Natural,\ \sqrt 2 \notin \Natural$．
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 1 集合とは}
     \begin{block}{集合の表し方}
         集合を表すための2通りの表記を導入する．
         \begin{enumerate}
@@ -242,18 +259,7 @@
 %     $x \in A$を任意に取ると，$A \subset B$より$x \in B$．さらに$B \subset C$より$x \in C$．よって$A \subset C$．\qed
 % \end{frame}
 
-\begin{frame}[fragile]{\S 1 集合とは}
-    \begin{block}{部分集合}
-        $A \subset B\ \define$\ $A$の任意の元が$B$に含まれる
-    \end{block}
-    \medskip
-    
-    空集合$\varnothing$は，任意の集合の部分集合である．
-    \begin{itemize}
-        \item 対偶律より「$x \in A$ならば$x \in B$」は「$x \notin B$ならば$x \notin A$」と同値
-        \item どんな$B$と$x \notin B$を取っても$x \notin \varnothing$を満たすので，$\emptyset \subset B$が言える
-    \end{itemize}
-\end{frame}
+
 
 \begin{frame}[fragile]{\S 1 集合とは}
     \begin{block}{巾集合}
@@ -264,7 +270,7 @@
     空集合$\varnothing$は，任意の集合の部分集合である．
     \begin{itemize}
         \item 対偶律より「$x \in A$ならば$x \in B$」は「$x \notin B$ならば$x \notin A$」と同値
-        \item どんな$B$と$x \notin B$を取っても$x \notin \varnothing$を満たすので，$\emptyset \subset B$が言える
+        \item どんな$B$と$x \notin B$を取っても$x \notin \varnothing$を満たすので，$\varnothing \subset B$が言える
     \end{itemize}
     \bigskip
 
@@ -397,6 +403,322 @@
             また$x \in X$であるから$x \in X - A$かつ$x \in X - B$．よって$x \in (X - A) \cap (X - B)$．
         \item[($\supset$)] 同様．\qed
     \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 3 ド・モルガンの法則}
+    一般には，議論の基礎となる集合（\alert{普遍集合}）を固定することが多い．
+
+    \smallskip
+    \begin{itemize}
+        \item 解析学では実数集合$\Real$や複素数集合$\Complex$を取る
+        \item 離散数学では自然数集合$\Natural$を取る
+    \end{itemize}
+    \smallskip
+
+    \begin{block}{補集合}
+    普遍集合$X$を固定する．\\
+    集合$A \subset X$に対して，$X - A$を$A$の\alert{補集合}といい，$A^c$で表す．
+    \end{block}
+    \smallskip
+
+    ド・モルガンの法則より，集合$A, B \subset X$に対して以下が成り立つ．
+    \begin{equation*}
+        (A \cup B)^c = A^c \cap B^c, \quad (A \cap B)^c = A^c \cup B^c
+    \end{equation*}
+    \begin{block}{定理3.1（ド・モルガンの法則）}
+        \begin{equation*}
+            X - (A \cup B) = (X - A) \cap (X - B), \quad X - (A \cap B) = (X - A) \cup (X - B).
+        \end{equation*}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 3 ド・モルガンの法則}
+    $X$を普遍集合，$A, B$を$X$の部分集合とする．
+    \begin{exampleblock}{問3.1}
+        \centering
+        \begin{math}
+            (A^c)^c = A, \quad X^c = \varnothing, \quad X = A \cup A^c,
+        \end{math}\\
+        \begin{math}
+            A \cap A^c = \varnothing, \quad A - B = A \cap B^c, \quad A \cup B = (A^c \cap B^c)^c.
+        \end{math}
+    \end{exampleblock}
+    \begin{exampleblock}{問3.2}
+        \centering
+        \begin{math}
+            (A \cup B) - C = (A \cap C) \cap (B - C), \quad (A \cap B) - C = (A - C) \cap (B - C).
+        \end{math}
+    \end{exampleblock}
+    \begin{exampleblock}{問3.3}
+        集合$A \circ B := (A - B) \cup (B - A)$を$A$と$B$の\alert{対称差}と呼ぶ．
+        \begin{enumerate}[(1)]
+            \item $A \circ B = B \circ A,\ (A \circ B) \circ C = A \circ (B \circ C)$,\ $A \circ A = \varnothing$,\ $A \circ \varnothing = A$.
+            \item 任意の集合$A, B$に対して，$A \circ X = B$なる集合$X$がただ一つ存在する．
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 4 直積集合}
+    \begin{block}{順序対}
+        2つのもの$a$と$b$からなる対$(a, b)$を，$a$と$b$の\alert{順序対}という．
+    \end{block}
+    \medskip
+
+    $(a, b) = (a', b')$を$a = a'$ かつ$b = b'$と定める．
+
+    \medskip
+    \begin{block}{直積}
+        集合$A, B$の元の順序対全体からなる集合を$A$と$B$の\alert{直積}といい，$A \times B$と書く．すなわち
+        \begin{equation*}
+            A \times B := \Set{(a, b) | a \in A,\ b \in B}.
+        \end{equation*}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 4 直積集合}
+    \begin{block}{直積}
+        \begin{math}
+            A \times B := \Set{(a, b) | a \in A,\ b \in B}
+        \end{math}
+    \end{block}
+    \medskip
+
+    より一般に，集合$A_1, \ldots, A_n$の直積を
+    \begin{equation*}
+        A_1 \times \cdots \times A_n := \Set{(a_1, \ldots, a_n) | a_1 \in A_1,\ \ldots,\ a_n \in A_n }
+    \end{equation*}
+    と定める．
+
+    \begin{exampleblock}{問4.1}
+        \centering
+        \begin{math}
+            A \times (B \cup C) = (A \times B) \cup (A \times C), \quad A \times (B \cap C) = (A \times B) \cap (A \times C),
+        \end{math}\\
+        \begin{math}
+            (A \cup B) \times C = (A \times C) \cup (B \times C), \quad (A \cap B) \times C = (A \times C) \cap (B \times C).
+        \end{math}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{写像}
+        $A, B$を集合とする．
+        \begin{itemize}
+            \item $A$の各元を$B$の元に対応させる規則を，$A$から$B$への\alert{関数}または\alert{写像}という．
+            \item $f$が$A$から$B$への写像であることを$f \colon A \to B$と表す．\\
+                このとき$A$を$f$の\alert{始域}といい，$B$を$f$の\alert{終域}という．
+        \end{itemize}
+    \end{block}
+    \medskip
+
+    写像$f \colon A \to B$と元$a \in A$に対して，$f$により$a$と対応づけられる$B$の元を$f(a)$で表す．
+    \medskip
+
+    2つの写像$f, g \colon A \to B$について，任意の$a \in A$に対して$f(a)$と$g(a)$が等しいとき，\\$f$と$g$は写像として\alert{等しい}といい，$f = g$で表す．
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{合成写像}
+        $f \colon A \to B$と$g \colon B \to C$を写像とする． \\
+        $A$の元$a$から$C$の元$g(f(a))$への対応を$f$と$g$の\alert{合成写像}といい，$g \circ f$で表す．\\
+        すなわち$g \circ f$は次の通り定義される写像である．
+        \begin{equation*}
+            \begin{array}{rccc}
+                g \circ f :& A & \to & C \\
+                           & a & \mapsto & g(f(a))\rlap{.}
+            \end{array}
+        \end{equation*}
+    \end{block}
+    \medskip
+
+    \begin{block}{定理5.1（結合法則）}
+        任意の写像 $\begin{tikzcd} X \arrow[r, "f"] & Y \arrow[r, "g"] & Z \arrow[r, "h"] & W \end{tikzcd}$ について，以下の等式が成り立つ．
+        \begin{equation*}
+            h \circ (g \circ f) = (h \circ g) \circ f.
+        \end{equation*}
+    \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{像・逆像}
+        $f \colon A \to B$を写像とする．
+        \begin{itemize}
+            \item 集合$A_1 \subset A$に対して，$B$の部分集合$f(A_1) := \Set{ f(a) \in B | a \in A_1}$を\\$f$による$A_1$の\alert{像}と呼ぶ．
+            \item 集合$B_1 \subset B$に対して，$A$の部分集合$f^{-1}(B_1) := \Set{ a \in A | f(a) \in B_1}$を\\$f$による$B_1$の\alert{逆像}ないし\alert{原像}と呼ぶ．
+        \end{itemize}
+    \end{block}
+    \medskip
+
+    
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{像・逆像}
+        \begin{tabular}{rrcl} 
+            \alert{像} \quad   & $f(A_1)$ & $:= $ & $\Set{ f(a) \in B | a \in A_1}$ \\
+            \alert{逆像} \quad & $f^{-1}(B_1)$ & $:= $ & $\Set{ a \in A | f(a) \in B_1}$
+        \end{tabular}
+    \end{block}
+    \medskip
+
+    \begin{block}{定理5.2}
+        $f \colon A \to B$, \quad $A_1, A_2 \subset A$, \quad $B_1, B_2 \subset B$
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}[(1)]
+                    \item $f(A_1 \cup A_2) = f(A_1) \cup f(A_2)$
+                    \item $f(A_1 \cap A_2) \subset f(A_1) \cap f(A_2)$
+                    \item $f^{-1}(B_1 \cup B_2) = f^{-1}(B_1) \cup f^{-1}(B_2)$
+                    \item $f^{-1}(B_1 \cap B_2) = f^{-1}(B_1) \cap f^{-1}(B_2)$
+                \end{enumerate}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}
+                    \item[(5)] $A_1 \subset f^{-1}(f(A_1))$
+                    \item[(6)] $f(f^{-1}(B_1)) \subset B_1$
+                    \item[(7)] $f(A_1) - f(A_2) \subset f(A_1 - A_2)$
+                    \item[(8)] $f^{-1}(B_1) - f^{-1}(B_2) = f^{-1}(B_1 - B_2)$
+                \end{enumerate}
+            \end{column}
+        \end{columns}
+    \end{block}
+
+
+    \phantom{逆像の方が像よりよい性質を持っている}
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{像・逆像}
+        \begin{tabular}{rrcl} 
+            \alert{像} \quad   & $f(A_1)$ & $:= $ & $\Set{ f(a) \in B | a \in A_1}$ \\
+            \alert{逆像} \quad & $f^{-1}(B_1)$ & $:= $ & $\Set{ a \in A | f(a) \in B_1}$
+        \end{tabular}
+    \end{block}
+    \medskip
+
+    \begin{block}{定理5.2}
+        $f \colon A \to B$, \quad $A_1, A_2 \subset A$, \quad $B_1, B_2 \subset B$
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}[(1)]
+                    \item $f(A_1 \cup A_2) = f(A_1) \cup f(A_2)$
+                    \item \alert{$f(A_1 \cap A_2) \subset f(A_1) \cap f(A_2)$}
+                    \item $f^{-1}(B_1 \cup B_2) = f^{-1}(B_1) \cup f^{-1}(B_2)$
+                    \item \alert{$f^{-1}(B_1 \cap B_2) = f^{-1}(B_1) \cap f^{-1}(B_2)$}
+                \end{enumerate}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}
+                    \item[(5)] $A_1 \subset f^{-1}(f(A_1))$
+                    \item[(6)] $f(f^{-1}(B_1)) \subset B_1$
+                    \item[(7)] \alert{$f(A_1) - f(A_2) \subset f(A_1 - A_2)$}
+                    \item[(8)] \alert{$f^{-1}(B_1) - f^{-1}(B_2) = f^{-1}(B_1 - B_2)$}
+                \end{enumerate}
+            \end{column}
+        \end{columns}
+    \end{block}
+
+    像よりも逆像の方がよい性質を持っている
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    集合の列$A_1, \ldots, A_n$は写像$A \colon i \mapsto A_i$と思うこともできる．これを一般化しよう．
+    \begin{block}{集合系}
+        $\Lambda$を非空集合，$\mathcal A$を集合族とする．\\
+        写像$A \colon \Lambda \to \mathcal A$を$\Lambda$の上の\alert{集合系}といい，$(A_\lambda \mid \lambda \in \Lambda)$や$(A_\lambda)_{\lambda \in \Lambda}$と表す．\\
+        このとき各$\lambda \in \Lambda$を$A_\lambda$の\alert{添え字}といい，$\Lambda$を$A$の\alert{添え字の集合}という．
+    \end{block}
+    \medskip
+
+    集合系$(A_\lambda)_{\lambda \in \Lambda}$の和集合や共通部分は$\bigcup_{\lambda \in \Lambda} A_\lambda$や$\bigcap_{\lambda \in \Lambda} A_\lambda$と表される．
+    \medskip
+
+    特に$\Lambda = \Natural$のとき，$\bigcup_{n \in \Natural} A_n$を$\bigcup_{n = 1}^\infty A_n$とも書く．
+
+    \begin{exampleblock}{問5.2}
+        \begin{enumerate}[(1)]
+            \item $\qty(\bigcup_\lambda A_\lambda) \cup B = \bigcup_\lambda \qty(A_\lambda \cup B)$
+            \item $\qty(\bigcup_\lambda A_\lambda) \cap B = \bigcup_\lambda \qty(A_\lambda \cap B)$
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    集合系$(A_\lambda)_{\lambda \in \Lambda}$について，特に各$A_\lambda$がある集合$X$の部分集合であるとき，\\
+    $(A_\lambda)_{\lambda \in \Lambda}$は$X$の\alert{部分集合系}であるという．
+    \medskip
+
+    \begin{exampleblock}{問5.3}
+        $(A_\lambda)_{\lambda \in \Lambda}$は$X$の部分集合系
+        \begin{enumerate}[(1)]
+            \item $\qty(\bigcup_\lambda A_\lambda)^c = \bigcap_\lambda \qty(A_\lambda)^c$
+            \item $\qty(\bigcap_\lambda A_\lambda)^c = \bigcup_\lambda \qty(A_\lambda)^c$
+        \end{enumerate}
+    \end{exampleblock}
+
+    \begin{exampleblock}{問5.4}
+        $f \colon X \to Y$は写像，$(A_\lambda)_{\lambda \in \Lambda}$は$X$の部分集合系，$(B_\mu)_{\mu \in M}$は$Y$の部分集合系
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}[(1)]
+                    \item $f\qty(\bigcup_\lambda A_\lambda) = \bigcup_\lambda f\qty(A_\lambda)$\phantom{$f^{-1}\qty(\bigcup_\mu B_\mu)$}
+                    \item $f\qty(\bigcap_\lambda A_\lambda) \subset \bigcap_\lambda f\qty(A_\lambda)$\phantom{$f^{-1}\qty(\bigcup_\mu B_\mu)$}
+                \end{enumerate}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{enumerate}
+                    \item[(3)] $f^{-1}\qty(\bigcup_\mu B_\mu) = \bigcup_\mu f^{-1}\qty(B_\mu)$
+                    \item[(4)] $f^{-1}\qty(\bigcap_\mu B_\mu) = \bigcap_\mu f^{-1}\qty(B_\mu)$
+                \end{enumerate}
+            \end{column}
+        \end{columns}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{exampleblock}{問5.5}
+        集合系$A_1, \ldots, A_n$ ($n \ge 2$) について，次が成り立つ．
+        \begin{equation*}
+            \bigcap_{1 \le i \le j \le n}(A_i \cup A_j) = \bigcup_{1 \le i \le n} (A_1 \cap \cdots \cap A_{i - 1} \cap A_{i + 1} \cap \cdots A_n)
+        \end{equation*}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{上極限・下極限}
+        $(E_n)_{n \in \Natural}$を集合系とする．
+        \begin{itemize}
+            \item $\displaystyle \limsup_{n \to \infty} E_n := \bigcap_{k = 1}^\infty \bigcup_{n = k}^\infty E_n$を\alert{上極限集合}という．
+            \item $\displaystyle \liminf_{n \to \infty}\hspace{0.3em} E_n := \bigcup_{k = 1}^\infty \bigcap_{n = k}^\infty E_n$を\alert{下極限集合}という．
+        \end{itemize}
+    \end{block}
+
+    \begin{exampleblock}{問5.6}
+        \begin{enumerate}[(1)]
+            \item $\liminf_n E_n \subset \limsup_n E_n$
+            \item $\forall n. A_n \subset B_n$ならば，$\limsup_n A_n \subset \limsup_n B_n$かつ$\liminf_n A_n \subset \liminf_n B_n$
+            \item[(3)] $\limsup_n (A_n \cup B_n) = \limsup_n A_n \cup \limsup_n B_n$
+            \item[(4)] $\liminf_n (A_n \cup B_n) = \liminf_n A_n \cup \liminf_n B_n$
+        \end{enumerate}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 5 写像}
+    \begin{block}{極限集合}
+        集合系$(E_n)_{n \in \Natural}$の上極限集合と下極限集合が一致するとき，\\これを\alert{極限集合}と呼び，$\displaystyle \lim_{n \to \infty} E_n$で表す．
+    \end{block}
+
+    \begin{exampleblock}{問5.7}
+        \begin{itemize}
+            \item $\forall n. E_n \subset E_{n+1}$ならば，$\lim_n E_n = \bigcup_n E_n$．
+            \item $\forall n. E_n \supset E_{n+1}$ならば，$\lim_n E_n = \bigcap_n E_n$．
+        \end{itemize}
+    \end{exampleblock}
 \end{frame}
 
 \end{document}
