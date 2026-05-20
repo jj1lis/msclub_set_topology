@@ -1,0 +1,349 @@
+\documentclass[uplatex,a4paper,dvipdfmx,aspectratio=169,11pt]{beamer}
+
+\input{slidesettings.tex}
+
+\title[内田集合位相ゼミ2]{数理研ゼミ：内田伏一『集合と位相』}
+\subtitle{第5章 位相空間}
+\author{型推栄}
+\institute[M1]{大学院情報理工学研究科 I専攻 岡本吉央研究室 M1}
+\date{2026/05/22}
+
+\renewcommand{\thefootnote}{*\arabic{footnote}}
+% \setbeamertemplate{enumerate items}{(\arabic{enumi})}
+
+\usetheme{Madrid}
+% \usecolortheme{crane}
+\useinnertheme{}
+\useoutertheme{}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{items}[default]
+\setbeamertemplate{navigation symbols}{}
+\renewcommand{\baselinestretch}{1}
+
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\begin{frame}[fragile]{本章の目的}
+    第4章で距離空間に対して考察した近傍，開集合・閉集合，閉包などの概念を抽象化して\\\alert{位相空間}を導入する
+
+    \bigskip
+
+    \begin{enumerate}
+        \item[\S 15] 位相
+        \item[\S 16] 近傍系と連続写像
+        \item[\S 17] 開基と基本近傍系
+        \item[\S 18] 点列連続性
+    \end{enumerate}
+
+\end{frame}
+
+\newcommand{\Opens}{\mathscr{O}}
+\newcommand{\Closeds}{\mathfrak{A}}
+% \renewcommand{\Real}{\mathbf{R}}
+% \renewcommand{\Natural}{\mathbf{N}}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{位相}
+        非空集合$X$の部分集合の族（i.e., $\power X$の部分集合）$\Opens$は，次の条件を満足するとき\\$X$の\alert{位相} (topology) であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \medskip{}
+
+    位相$\Opens$を与えられた集合$X$を\alert{位相空間} (topological space) といい，$(X, \Opens)$で表す．
+
+    各集合$O \in \Opens$を$(X, \Opens)$の\alert{$\Opens$-開集合}ないし単に\alert{開集合} (open set) といい，\\
+    $X$の元を$(X, \Opens)$の\alert{点} (point) という．
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{alertblock}{お気持ち}
+        位相は\alert{点と点を区別する}もの
+        \begin{itemize}
+            \item 点$x$と$y$が区別される$\iff$$\exists O \in \Opens,$「$x \in O$ かつ$y \notin O$」または「$x \notin O$かつ$y \in O$」
+        \end{itemize}
+    \end{alertblock}
+
+    \medskip{}
+
+    $X = \qty{x, y, z},\ \Opens = \qty{X, \qty{x, y}, \qty{z}, \varnothing}$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (x) at (0, 0) {\large $x$};
+            \node (y) at (2, 0) {\large $y$};
+            \node (z) at (4, 0) {\large $z$};
+
+            \draw (2, 0) circle[x radius=3, y radius=0.8];
+            \draw (1, 0) circle[x radius=1.5, y radius=0.5];
+            \draw (4, 0) circle[radius=0.5];
+
+            \draw[<->] (x) -- node[above]{\scriptsize 区別不可} (y);
+        \end{tikzpicture}
+    \end{figure} 
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \medskip{}
+
+    \begin{exampleblock}{例15.1}
+        $\Opens = \power X$は$X$の位相である．
+        \begin{itemize}
+            \item これを\alert{離散位相} (discrete topology) と呼び，$(X, \power X)$を\alert{離散空間}という．
+        \end{itemize}
+        $\Opens = \qty{X, \varnothing}$も$X$の位相である．
+        \begin{itemize}
+            \item これを\alert{密着位相} (indiscrete topology) と呼び，$(X, \qty{X, \varnothing})$を\alert{密着空間}という．
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{exampleblock}{}
+        $\Opens = \power X$を\alert{離散位相}と呼び，$(X, \power X)$を\alert{離散空間}という．
+        % $\Opens = \qty{X, \varnothing}$を\alert{密着位相}と呼び，$(X, \qty{X, \varnothing})$を\alert{密着空間}という．
+    \end{exampleblock}
+
+    \medskip{}
+
+    $X = \qty{x, y, z},\ \Opens = \qty{X, \qty{x, y}, \qty{y, z}, \qty{x, z}, \qty{x}, \qty{y}, \qty{z}, \varnothing}$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (x) at (0, 0) {\large $x$};
+            \node (y) at (2, 0) {\large $y$};
+            \node (z) at (1, 1) {\large $z$};
+
+            \draw (x) circle[radius=0.2];
+            \draw (y) circle[radius=0.2];
+            \draw (z) circle[radius=0.2];
+
+            \draw ($(x)!.5!(y)$) circle[x radius=1.6, y radius=0.4, rotate=0];
+            \draw ($(y)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=-45];
+            \draw ($(x)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=45];
+            \draw (1, 0.4) circle[x radius=2.5, y radius=1.3];
+
+        \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{exampleblock}{}
+        % $\Opens = \power X$を\alert{離散位相}と呼び，$(X, \power X)$を\alert{離散空間}という．
+        $\Opens = \qty{X, \varnothing}$を\alert{密着位相}と呼び，$(X, \qty{X, \varnothing})$を\alert{密着空間}という．
+    \end{exampleblock}
+
+    \medskip{}
+
+    $X = \qty{x, y, z},\ \Opens = \qty{X, \varnothing}$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (x) at (0, 0) {\large $x$};
+            \node (y) at (2, 0) {\large $y$};
+            \node (z) at (1, 1) {\large $z$};
+
+            % \draw (x) circle[radius=0.2];
+            % \draw (y) circle[radius=0.2];
+            % \draw (z) circle[radius=0.2];
+            %
+            % \draw ($(x)!.5!(y)$) circle[x radius=1.6, y radius=0.4, rotate=0];
+            % \draw ($(y)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=-45];
+            % \draw ($(x)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=45];
+            \draw (1, 0.4) circle[x radius=2.5, y radius=1.3];
+        \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+    \begin{block}{定理12.2}
+        $\Real^n$の開集合系$\Opens = \Opens(\Real^n)$は次の条件を満足する．
+       \begin{description}
+           \item[(1)] $\Real^n \in \Opens, \varnothing \in \Opens$.
+           \item[(2)] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[(3)] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{exampleblock}{例15.2}
+        $\Opens(\Real^n)$を$\Real^n$の\alert{通常の位相}と呼ぶ．
+    \end{exampleblock} 
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+    \medskip{}
+
+    距離空間$(X, d)$上の集合$A \subset X$は，$A = A^i$のとき開集合，$A = \overline A$のとき閉集合と呼ぶ．
+
+    \begin{exampleblock}{例15.3}
+        距離空間$(X, d)$の開集合系$\Opens$は$X$の位相の一つであり（cf.\ 問13.5），
+        これを\\$d$によって定まる\alert{距離位相}と呼ぶ．
+        \medskip{}
+
+        また集合$X$上の位相$\Opens$がある距離によって定まる距離位相に一致するとき，\\$\Opens$は\alert{距離化可能} (metrizable) であるという．
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+    \medskip{}
+
+    \begin{exampleblock}{例15.4}
+        $(X, \Opens)$: 位相空間， \quad $A \subset X$: 非空
+        \medskip{}
+
+        $\Opens_A = \Set{A \cap U | U \in \Opens}$は$A$の位相の一つである．
+
+        これを$A$の上の$\Opens$に関する\alert{相対位相} (relative topology) と呼び，位相空間$(A, \Opens_A)$を\\$(X, \Opens)$の\alert{部分空間} (subspace) という．
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間
+
+    \medskip{}
+
+    集合$F \subset X$は，$F^c \in \Opens$であるとき$(X, \Opens)$の\alert{閉集合} (closed set) であるという．
+
+    \begin{exampleblock}{問15.3}
+        位相空間$(X, \Opens)$の閉集合全体$\Closeds$が次の条件を満足することを確かめよ．
+        \begin{description}
+            \item[(1)] $X \in \Closeds, \varnothing \in \Closeds$.
+            \item[(2)] $F_1, F_2, \ldots, F_k \in \Closeds$ならば$F_1 \cup F_2 \cup \dots F_k \in \Closeds$.
+            \item[(3)] $\qty(F_\lambda \mid \lambda \in \Lambda)$を$\Closeds$の元から成る集合系とすれば，$\bigcap_\lambda F_\lambda \in \Closeds$.
+        \end{description}
+    \end{exampleblock}
+
+    \medskip{}
+    \fbox{\large 証明の方針}
+
+        \begin{enumerate}
+            \item[(1)] 簡単．
+            \item[(2)] ド・モルガンの法則から従う．
+            \item[(3)] $\qty(\bigcap_\lambda F_\lambda)^c = \bigcup_\lambda F_\lambda^c$が言えれば十分．
+        \end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$
+
+    \medskip{}
+
+    $A$に包まれる開集合全体の和集合を$A^i$で表す (i.e., $A^i := \bigcup \Set{O \in \Opens | O \subset A}$) と，\\
+    $A^i$自身も$\Opens$に属する．したがって$A^i$は$A$に包まれる最大の開集合である．
+
+    \begin{block}{開核作用子}
+        $A^i$を$A$の\alert{内部}または\alert{開核} (interior) といい，$A^i$の点を$A$の\alert{内点} (interior point) という．
+
+        $X$の各部分集合にその内部を対応させる写像
+        \begin{equation*} 
+            \begin{array}{rccc}
+                (-)^i: & \power X & \to & \power X \\
+                       & A & \mapsto & A^i
+            \end{array}
+        \end{equation*}
+        を$(X, \Opens)$の\alert{開核作用子} (interior operator) という．
+    \end{block}
+
+    \medskip{}
+
+    距離空間のときに考えた内部のイメージでOK
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$，\quad $A^i := \bigcup \Set{O \in \Opens | O \subset A}$
+
+    \medskip{}
+
+    \begin{block}{定理15.1}
+        位相空間$(X, \Opens)$の開核作用子は，次の性質を持つ．
+        \begin{description}
+            \item[(1)] $X^i = X$.
+            \item[(2)] $A^i \subset A$.
+            \item[(3)] $(A \cap B)^i = A^i \cap B^i$.
+            \item[(4)] $(A^i)^i = A^i$.
+        \end{description}
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad (1), (2), (4) は自明なので (3) のみ示す．
+
+    \begin{description}[$(A \cap B)^i \subset A^i \cap B^i$:]
+        \item[$A^i \cap B^i \subset (A \cap B)^i$:] (左辺)\ $\subset A \cap B$で，右辺はそのような開集合の中で最大．
+        \item[$(A \cap B)^i \subset A^i \cap B^i$:] (右辺)\ $\subset A^i$,\ (右辺)\ $\subset B^i$から従う．\qed
+    \end{description}
+
+\end{frame}
+
+\end{document}
