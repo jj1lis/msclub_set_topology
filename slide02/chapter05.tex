@@ -50,7 +50,7 @@
         非空集合$X$の部分集合の族（i.e., $\power X$の部分集合）$\Opens$は，次の条件を満足するとき\\$X$の\alert{位相} (topology) であるという．
        \begin{description}
            \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
-           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
            \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
        \end{description} 
     \end{block}
@@ -70,7 +70,7 @@
         非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
        \begin{description}
            \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
-           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
            \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
        \end{description} 
     \end{block}
@@ -106,7 +106,7 @@
         非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
        \begin{description}
            \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
-           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
            \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
        \end{description} 
     \end{block}
@@ -343,6 +343,95 @@
         \item[$A^i \cap B^i \subset (A \cap B)^i$:] (左辺)\ $\subset A \cap B$で，右辺はそのような開集合の中で最大．
         \item[$(A \cap B)^i \subset A^i \cap B^i$:] (右辺)\ $\subset A^i$,\ (右辺)\ $\subset B^i$から従う．\qed
     \end{description}
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$
+
+    \medskip{}
+
+    $A$を包む閉集合全体の共通部分を$\bar A$または$A^a$で表す (i.e., $A^a := \bigcap \Set{F \in \Closeds{} | A \subset F}$) と，\\
+    $A^a$自身も$\Closeds$に属する．したがって$A^a$は$A$を包む最小の閉集合である．
+
+    \begin{block}{閉包作用子}
+        $A^a$を$A$の\alert{閉包} (closure) といい，$A^a$の点を$A$の\alert{触点} (adherent point) という．
+
+        $X$の各部分集合にその閉包を対応させる写像
+        \begin{equation*} 
+            \begin{array}{rccc}
+                (-)^a: & \power X & \to & \power X \\
+                       & A & \mapsto & A^a
+            \end{array}
+        \end{equation*}
+        を$(X, \Opens)$の\alert{閉包作用子} (closure operator) という．
+    \end{block}
+
+    \medskip{}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$，\quad $A^a := \bigcap \Set{F \in \Closeds{} | A \subset F}$
+
+    \medskip{}
+
+    \begin{block}{定理15.2}
+        位相空間$(X, \Opens)$の閉包作用子は，次の性質を持つ．
+        \begin{description}
+            \item[(1)] $\varnothing^i = \varnothing$.
+            \item[(2)] $A \subset A^a$.
+            \item[(3)] $(A \cup B)^a = A^a \cup B^a$.
+            \item[(4)] $(A^a)^a = A^a$.
+        \end{description}
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 定理15.2の双対．\qed
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{exampleblock}{問15.4}
+        $(X, d)$を距離空間，$\Opens$を$d$によって定まる距離位相とする．各$A \subset X$について次を示せ
+        \begin{enumerate}
+            \item \alert{距離空間$(X, d)$における$A$の内部}と，\structure{位相空間$(X, \Opens)$における$A$の内部}は一致する
+            \item \alert{距離空間$(X, d)$における$A$の閉包}と，\structure{位相空間$(X, \Opens)$における$A$の閉包}は一致する
+        \end{enumerate}
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 1のみ示す．任意の$I \subset A$について「\alert{$A^i = I$}$\iff$\structure{$A^i = I$}」が言えればよい．
+   \begin{description}[$\Rightarrow$]
+       \item[$(\Rightarrow)$] $I$は\alert{開集合}なので\structure{開集合}でもある．また\structure{開集合}$J \subset A$とその点$x \in J$を任意に取ると，\\
+           $x$は$J$の\alert{内点}だから，ある近傍$N(x; \varepsilon) \subset J \subset A$が存在する．
+           つまり$x$は$A$の\alert{内点}でもあるので$x \in I$．すなわち$J \subset I$が導かれるから，$I$は$A$に包まれる\structure{開集合}で最大．
+       \item[$(\Leftarrow)$] $A$の\alert{内点}$x$を任意に取り，その\alert{近傍}を$J := N(x; \varepsilon) \subset A$とすると，$J$は\structure{開集合}である．\\
+           $I$は$A$に包まれる\structure{開集合}で最大だから$J \subset I$．よって$I$は$A$の\alert{内点}を全て含む．\\
+           また$I \in \Opens,I \subset A$より$I$の点は全て$A$の\alert{内点}であるから，$I$は$A$の\alert{内点}全体．\qed
+   \end{description} 
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{exampleblock}{問15.5}
+        $(X, \Opens)$を位相空間とする．各$A \subset X$について次を示せ
+        \begin{enumerate}
+            \item $(A^c)^a = (A^i)^c$
+            \item $(A^c)^a = (A^a)^c$
+        \end{enumerate}
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 1のみ示す．
+   \begin{description}[$(\subset)$]
+       \item[$(\subset)$] $((A^c)^a)^c$は開集合である．
+       \item[$(\supset)$]
+   \end{description} 
 
 \end{frame}
 
