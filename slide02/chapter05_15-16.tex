@@ -1,0 +1,1026 @@
+\documentclass[uplatex,a4paper,dvipdfmx,aspectratio=169,11pt]{beamer}
+
+\input{slidesettings.tex}
+
+\title[内田集合位相ゼミ2]{数理研ゼミ：内田伏一『集合と位相』}
+\subtitle{第5章 位相空間}
+\author{型推栄}
+\institute[M1]{大学院情報理工学研究科 I専攻 岡本吉央研究室 M1}
+\date{2026/05/22}
+
+\renewcommand{\thefootnote}{*\arabic{footnote}}
+% \setbeamertemplate{enumerate items}{(\arabic{enumi})}
+
+\usetheme{Madrid}
+% \usecolortheme{crane}
+\useinnertheme{}
+\useoutertheme{}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{items}[default]
+\setbeamertemplate{navigation symbols}{}
+\renewcommand{\baselinestretch}{1}
+
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\begin{frame}[fragile]{本章の目的}
+    第4章で距離空間に対して考察した近傍，開集合・閉集合，閉包などの概念を抽象化して\\\alert{位相空間}を導入する
+
+    \bigskip
+
+    \begin{enumerate}
+        \item[\S 15] 位相
+        \item[\S 16] 近傍系と連続写像
+        \item[\S 17] 開基と基本近傍系
+        \item[\S 18] 点列連続性
+    \end{enumerate}
+
+\end{frame}
+
+% \renewcommand{\Real}{\mathbf{R}}
+% \renewcommand{\Natural}{\mathbf{N}}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{位相}
+        非空集合$X$の部分集合の族（i.e., $\power X$の部分集合）$\Opens$は，次の条件を満足するとき\\$X$の\alert{位相} (topology) であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \medskip{}
+
+    位相$\Opens$を与えられた集合$X$を\alert{位相空間} (topological space) といい，$(X, \Opens)$で表す．
+
+    各集合$O \in \Opens$を$(X, \Opens)$の\alert{$\Opens$-開集合}ないし単に\alert{開集合} (open set) といい，\\
+    $X$の元を$(X, \Opens)$の\alert{点} (point) という．
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{alertblock}{お気持ち}
+        位相は\alert{点と点を区別する}もの
+        \begin{itemize}
+            \item 点$x$と$y$が区別される$\iff$$\exists O \in \Opens,$「$x \in O$ かつ$y \notin O$」または「$x \notin O$かつ$y \in O$」
+        \end{itemize}
+    \end{alertblock}
+
+    \medskip{}
+
+    $X = \qty{x, y, z},\ \Opens = \qty{X, \qty{x, y}, \qty{z}, \varnothing}$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (x) at (0, 0) {\large $x$};
+            \node (y) at (2, 0) {\large $y$};
+            \node (z) at (4, 0) {\large $z$};
+
+            \draw (2, 0) circle[x radius=3, y radius=0.8];
+            \draw (1, 0) circle[x radius=1.5, y radius=0.5];
+            \draw (4, 0) circle[radius=0.5];
+
+            \draw[<->] (x) -- node[above]{\scriptsize 区別不可} (y);
+        \end{tikzpicture}
+    \end{figure} 
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \medskip{}
+
+    \begin{exampleblock}{例15.1}
+        $\Opens = \power X$は$X$の位相である．
+        \begin{itemize}
+            \item これを\alert{離散位相} (discrete topology) と呼び，$(X, \power X)$を\alert{離散空間}という．
+        \end{itemize}
+        $\Opens = \qty{X, \varnothing}$も$X$の位相である．
+        \begin{itemize}
+            \item これを\alert{密着位相} (indiscrete topology) と呼び，$(X, \qty{X, \varnothing})$を\alert{密着空間}という．
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{exampleblock}{}
+        $\Opens = \power X$を\alert{離散位相}と呼び，$(X, \power X)$を\alert{離散空間}という．
+        % $\Opens = \qty{X, \varnothing}$を\alert{密着位相}と呼び，$(X, \qty{X, \varnothing})$を\alert{密着空間}という．
+    \end{exampleblock}
+
+    \medskip{}
+
+    $X = \qty{x, y, z},\ \Opens = \qty{X, \qty{x, y}, \qty{y, z}, \qty{x, z}, \qty{x}, \qty{y}, \qty{z}, \varnothing}$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (x) at (0, 0) {\large $x$};
+            \node (y) at (2, 0) {\large $y$};
+            \node (z) at (1, 1) {\large $z$};
+
+            \draw (x) circle[radius=0.2];
+            \draw (y) circle[radius=0.2];
+            \draw (z) circle[radius=0.2];
+
+            \draw ($(x)!.5!(y)$) circle[x radius=1.6, y radius=0.4, rotate=0];
+            \draw ($(y)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=-45];
+            \draw ($(x)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=45];
+            \draw (1, 0.4) circle[x radius=2.5, y radius=1.3];
+
+        \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{exampleblock}{}
+        % $\Opens = \power X$を\alert{離散位相}と呼び，$(X, \power X)$を\alert{離散空間}という．
+        $\Opens = \qty{X, \varnothing}$を\alert{密着位相}と呼び，$(X, \qty{X, \varnothing})$を\alert{密着空間}という．
+    \end{exampleblock}
+
+    \medskip{}
+
+    $X = \qty{x, y, z},\ \Opens = \qty{X, \varnothing}$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (x) at (0, 0) {\large $x$};
+            \node (y) at (2, 0) {\large $y$};
+            \node (z) at (1, 1) {\large $z$};
+
+            % \draw (x) circle[radius=0.2];
+            % \draw (y) circle[radius=0.2];
+            % \draw (z) circle[radius=0.2];
+            %
+            % \draw ($(x)!.5!(y)$) circle[x radius=1.6, y radius=0.4, rotate=0];
+            % \draw ($(y)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=-45];
+            % \draw ($(x)!.5!(z)$) circle[x radius=1.4, y radius=0.4, rotate=45];
+            \draw (1, 0.4) circle[x radius=2.5, y radius=1.3];
+        \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+    \begin{block}{定理12.2}
+        $\Real^n$の開集合系$\Opens = \Opens(\Real^n)$は次の条件を満足する．
+       \begin{description}
+           \item[(1)] $\Real^n \in \Opens, \varnothing \in \Opens$.
+           \item[(2)] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[(3)] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+
+    \begin{exampleblock}{例15.2}
+        $\Opens(\Real^n)$を$\Real^n$の\alert{通常の位相}と呼ぶ．
+    \end{exampleblock} 
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+    \medskip{}
+
+    距離空間$(X, d)$上の集合$A \subset X$は，$A = A^i$のとき開集合，$A = \overline A$のとき閉集合と呼ぶ．
+
+    \begin{exampleblock}{例15.3}
+        距離空間$(X, d)$の開集合系$\Opens$は$X$の位相の一つであり（cf.\ 問13.5），
+        これを\\$d$によって定まる\alert{距離位相}と呼ぶ．
+        \medskip{}
+
+        また集合$X$上の位相$\Opens$がある距離によって定まる距離位相に一致するとき，\\$\Opens$は\alert{距離化可能} (metrizable) であるという．
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{}
+        非空集合$X$の部分集合の族$\Opens$は，次の条件を満足するとき$X$の\alert{位相}であるという．
+       \begin{description}
+           \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+           \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots O_k \in \Opens$.
+           \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+       \end{description} 
+    \end{block}
+    \medskip{}
+
+    \begin{exampleblock}{例15.4}
+        $(X, \Opens)$: 位相空間， \quad $A \subset X$: 非空
+        \medskip{}
+
+        $\Opens_A = \Set{A \cap U | U \in \Opens}$は$A$の位相の一つである．
+
+        これを$A$の上の$\Opens$に関する\alert{相対位相} (relative topology) と呼び，位相空間$(A, \Opens_A)$を\\$(X, \Opens)$の\alert{部分空間} (subspace) という．
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間
+
+    \medskip{}
+
+    集合$F \subset X$は，$F^c \in \Opens$であるとき$(X, \Opens)$の\alert{閉集合} (closed set) であるという．
+
+    \begin{exampleblock}{問15.3}
+        位相空間$(X, \Opens)$の閉集合全体$\Closeds$が次の条件を満足することを確かめよ．
+        \begin{description}
+            \item[(1)] $X \in \Closeds, \varnothing \in \Closeds$.
+            \item[(2)] $F_1, F_2, \ldots, F_k \in \Closeds$ならば$F_1 \cup F_2 \cup \dots F_k \in \Closeds$.
+            \item[(3)] $\qty(F_\lambda \mid \lambda \in \Lambda)$を$\Closeds$の元から成る集合系とすれば，$\bigcap_\lambda F_\lambda \in \Closeds$.
+        \end{description}
+    \end{exampleblock}
+
+    \medskip{}
+    \fbox{\large 証明の方針}
+
+        \begin{enumerate}
+            \item[(1)] 簡単．
+            \item[(2)] ド・モルガンの法則から従う．
+            \item[(3)] $\qty(\bigcap_\lambda F_\lambda)^c = \bigcup_\lambda F_\lambda^c$が言えれば十分．
+        \end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$
+
+    \medskip{}
+
+    $A$に包まれる開集合全体の和集合を$A^i$で表す (i.e., $A^i := \bigcup \Set{O \in \Opens | O \subset A}$) と，\\
+    $A^i$自身も$\Opens$に属する．したがって$A^i$は$A$に包まれる最大の開集合である．
+
+    \begin{block}{開核作用子}
+        $A^i$を$A$の\alert{内部}または\alert{開核} (interior) といい，$A^i$の点を$A$の\alert{内点} (interior point) という．
+
+        $X$の各部分集合にその内部を対応させる写像
+        \begin{equation*} 
+            \begin{array}{rccc}
+                (-)^i: & \power X & \to & \power X \\
+                       & A & \mapsto & A^i
+            \end{array}
+        \end{equation*}
+        を$(X, \Opens)$の\alert{開核作用子} (interior operator) という．
+    \end{block}
+
+    \medskip{}
+
+    距離空間のときに考えた内部のイメージでOK
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$，\quad $A^i := \bigcup \Set{O \in \Opens | O \subset A}$
+
+    \medskip{}
+
+    \begin{block}{定理15.1}
+        位相空間$(X, \Opens)$の開核作用子は，次の性質を持つ．
+        \begin{description}
+            \item[(1)] $X^i = X$.
+            \item[(2)] $A^i \subset A$.
+            \item[(3)] $(A \cap B)^i = A^i \cap B^i$.
+            \item[(4)] $(A^i)^i = A^i$.
+        \end{description}
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad (1), (2), (4) は自明なので (3) のみ示す．
+
+    \begin{description}[$(A \cap B)^i \subset A^i \cap B^i$:]
+        \item[$A^i \cap B^i \subset (A \cap B)^i$:] (左辺)\ $\subset A \cap B$で，右辺はそのような開集合の中で最大．
+        \item[$(A \cap B)^i \subset A^i \cap B^i$:] (右辺)\ $\subset A^i$,\ (右辺)\ $\subset B^i$から従う．\qed
+    \end{description}
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$
+
+    \medskip{}
+
+    $A$を包む閉集合全体の共通部分を$\bar A$または$A^a$で表す (i.e., $A^a := \bigcap \Set{F \in \Closeds{} | A \subset F}$) と，\\
+    $A^a$自身も$\Closeds$に属する．したがって$A^a$は$A$を包む最小の閉集合である．
+
+    \begin{block}{閉包作用子}
+        $A^a$を$A$の\alert{閉包} (closure) といい，$A^a$の点を$A$の\alert{触点} (adherent point) という．
+
+        $X$の各部分集合にその閉包を対応させる写像
+        \begin{equation*} 
+            \begin{array}{rccc}
+                (-)^a: & \power X & \to & \power X \\
+                       & A & \mapsto & A^a
+            \end{array}
+        \end{equation*}
+        を$(X, \Opens)$の\alert{閉包作用子} (closure operator) という．
+    \end{block}
+
+    \medskip{}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$，\quad $A^a := \bigcap \Set{F \in \Closeds{} | A \subset F}$
+
+    \medskip{}
+
+    \begin{block}{定理15.2}
+        位相空間$(X, \Opens)$の閉包作用子は，次の性質を持つ．
+        \begin{description}
+            \item[(1)] $\varnothing^i = \varnothing$.
+            \item[(2)] $A \subset A^a$.
+            \item[(3)] $(A \cup B)^a = A^a \cup B^a$.
+            \item[(4)] $(A^a)^a = A^a$.
+        \end{description}
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 定理15.2の双対．\qed
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{exampleblock}{問15.4}
+        $(X, d)$を距離空間，$\Opens$を$d$によって定まる距離位相とする．各$A \subset X$について次を示せ
+        \begin{enumerate}
+            \item \alert{距離空間$(X, d)$における$A$の内部}と，\structure{位相空間$(X, \Opens)$における$A$の内部}は一致する
+            \item \alert{距離空間$(X, d)$における$A$の閉包}と，\structure{位相空間$(X, \Opens)$における$A$の閉包}は一致する
+        \end{enumerate}
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 1のみ示す．任意の$I \subset A$について「\alert{$A^i = I$}$\iff$\structure{$A^i = I$}」が言えればよい．
+   \begin{description}[$\Rightarrow$]
+       \item[$(\Rightarrow)$] $I$は\alert{開集合}なので\structure{開集合}でもある．また\structure{開集合}$J \subset A$とその点$x \in J$を任意に取ると，\\
+           $x$は$J$の\alert{内点}だから，ある近傍$N(x; \varepsilon) \subset J \subset A$が存在する．
+           つまり$x$は$A$の\alert{内点}でもあるので$x \in I$．すなわち$J \subset I$が導かれるから，$I$は$A$に包まれる\structure{開集合}で最大．
+       \item[$(\Leftarrow)$] $A$の\alert{内点}$x$を任意に取り，その\alert{近傍}を$J := N(x; \varepsilon) \subset A$とすると，$J$は\structure{開集合}である．\\
+           $I$は$A$に包まれる\structure{開集合}で最大だから$J \subset I$．よって$I$は$A$の\alert{内点}を全て含む．\\
+           また$I \in \Opens,I \subset A$より$I$の点は全て$A$の\alert{内点}であるから，$I$は$A$の\alert{内点}全体．\qed
+   \end{description} 
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{exampleblock}{問15.5}
+        $(X, \Opens)$を位相空間とする．各$A \subset X$について次を示せ
+        \begin{enumerate}
+            \item $(A^c)^a = (A^i)^c$
+            \item $(A^c)^a = (A^a)^c$
+        \end{enumerate}
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 1のみ示す．一般に$A \subset B$ならば$A^c \supset B^c$となることに注意せよ．
+   \begin{description}[$(\subset)$]
+       \item[$(\subset)$] $(A^i)^c$は閉集合で，しかも$A^c$を包む．よって$(A^c)^a \subset (A^i)^c$．
+       \item[$(\supset)$] $((A^c)^a)^c$は開集合で，$A$に包まれる（$(A^c)^a \supset A^c$に注意）．よって$((A^c)^a)^c \subset A^i$で，\\補集合を取って$(A^c)^a \supset (A^i)^c$．\qed
+   \end{description} 
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{定理15.3}
+        $X$を非空集合とし，写像$k \colon \power X \to \power X$は次の\alert{クラトウスキイ} (Kuratowski) \alert{の公理系}を\\満たすとする：
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+        \vspace{0.5em}
+        このときある$X$の位相$\Opens$が一意に存在して，$k$が$(X, \Opens)$の閉包作用子に一致する．
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad この$\Opens$は
+    \begin{math}
+        \Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}
+    \end{math}
+    で与えられる．\\そこで以下のことを順に示す．
+    \begin{enumerate}
+        \item $\Opens$が実際に$X$の位相であること
+        \item $(X, \Opens)$の閉包作用子が$k$に一致すること
+        \item $\Opens$がそのような唯一のものであること
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{Kuratowskiの公理系}
+        \vspace{-0.5em}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+
+    \begin{block}{補題1}
+        $\Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}$は$X$の位相である．
+    \end{block}
+
+    \medskip{}
+    位相の3条件を満たすことを確認する．
+    \begin{block}{}
+        \begin{description}[$\textbf{O}_1$]
+            \item[$\textbf{O}_1$] $X \in \Opens, \varnothing \in \Opens$.
+            \item[$\textbf{O}_2$] $O_1, O_2, \ldots, O_k \in \Opens$ならば$O_1 \cap O_2 \cap \dots \cap O_k \in \Opens$.
+            \item[$\textbf{O}_3$] $\qty(O_\lambda \mid \lambda \in \Lambda)$を$\Opens$の元から成る集合系とすれば，$\bigcup_\lambda O_\lambda \in \Opens$.
+        \end{description}
+    \end{block}
+\end{frame}
+
+\newcommand{\Kbf}{\textbf{K}}
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{Kuratowskiの公理系}
+        \vspace{-0.5em}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+
+    \begin{block}{補題1}
+        $\Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}$は$X$の位相である．
+    \end{block}
+
+    \medskip{}
+    \begin{description}[$\textbf{O}_1$]
+        \item[$\textbf{O}_1$:] $\Kbf_1$より$k(X^c) = k(\varnothing) = \varnothing = X^c$であるから$X \in \Opens$．\\
+            また$\Kbf_2$より$X \subset k(X) \subset X$であるから$k(\varnothing^c) = k(X) = X = \varnothing^c$．よって$\varnothing \in \Opens$．
+        \item[$\textbf{O}_2$:] $M_1, M_2 \in \Opens$を任意に取ると，$\Kbf_3$より
+            \begin{equation*}
+                k((M_1 \cap M_2)^c) = k(M_1^c \cup M_2^c) = k(M_1^c) \cup k(M_2^c) = M_1^c \cup M_2^c = (M_1 \cap M_2)^c.
+            \end{equation*}
+            したがって$M_1 \cap M_2 \in \Opens$を満たす．一般に$k$個の$M_1, \ldots, M_k$についても同様．
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{Kuratowskiの公理系}
+        \vspace{-0.5em}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+
+    \begin{block}{補題1}
+        $\Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}$は$X$の位相である．
+    \end{block}
+
+    \medskip{}
+    \begin{description}[$\textbf{O}_1$]
+        \item[$\textbf{O}_3$:] $\Opens$上の集合系$(M_\lambda \mid \lambda \in \Lambda)$を任意に取り，$M := \bigcup M_\lambda$とする．$M \in \Opens$を示す．\\
+            $\Kbf_3$より$A \subset B \implies k(A) \subset k(B)$に注意しよう．\\
+            各$\lambda$について$M^c \subset M_\lambda^c$であるから$k(M^c) \subset k(M_\lambda^c) = M_\lambda^c$．
+            すなわち\begin{equation*}k(M^c) \subset \bigcap M_\lambda^c = \qty(\bigcup M_\lambda)^c = M^c.\end{equation*}
+            一方で$\Kbf_2$より$M^c \subset k(M^c)$だから$k(M^c) = M^c$．よって$M \in \Opens$．
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{Kuratowskiの公理系}
+        \vspace{-0.5em}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+    $\Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}$
+
+    \begin{block}{補題2}
+        与えられた$k$に対して位相空間$(X, \Opens)$を構成すると，その閉包作用子は$k$に一致する．
+    \end{block}
+
+    $A \subset X$を任意に取り，その閉包$A^a$が$k(A)$と一致することを示す．
+
+    \medskip{}
+
+    $(A^a)^c$は$\Opens$-開集合なので$k(((A^a)^c)^c) = ((A^a)^c)^c$，すなわち$k(A^a) = A^a$を満たす．
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{Kuratowskiの公理系}
+        \vspace{-0.5em}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+    $\Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}$
+
+    \begin{block}{補題2}
+        与えられた$k$に対して位相空間$(X, \Opens)$を構成すると，その閉包作用子は$k$に一致する．
+    \end{block}
+
+    ゴール: $A^a = k(A)$ \quad メモ: $k(A^a) = A^a$
+
+    \medskip{}
+
+    \begin{description}[$(\supset)$]
+        \item[$(\supset)$] $A \subset A^a$より$k(A) \subset k(A^a)$だから$k(A) \subset A^a$．
+        \item[$(\subset)$] $M := (k(A))^c$と置くと$M^c = k(A)$だから，$\Kbf_4$より
+            \begin{math}
+                k(M^c) = k(k(A)) = k(A) = M^c.
+            \end{math}\\
+            よって$(k(A))^c$は$\Opens$-開集合で，$k(A)$は$\Opens$-閉集合．\\
+            さらに$\Kbf_2$より$A \subset k(A)$だから，$A^a \subset k(A)$が成り立つ．
+    \end{description}
+
+\end{frame}
+
+\newcommand{\Ocal}{\mathcal{O}}
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{block}{Kuratowskiの公理系}
+        \vspace{-0.5em}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_1$:] $k(\varnothing) = \varnothing$
+                    \item[$\textbf{K}_2$:] $A \subset k(A)$
+                \end{description}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \begin{description}[$\textbf{K}_1$:]
+                    \item[$\textbf{K}_3$:] $k(A \cup B) = k(A) \cup k(B)$
+                    \item[$\textbf{K}_4$:] $k(k(A)) = k(A)$
+                \end{description}
+            \end{column}
+        \end{columns}
+    \end{block}
+    $\Opens := \Set{ M \in {\power{X}} | k(M^c) = M^c}$
+
+    \begin{block}{補題3}
+        この$\Opens$は，閉包作用子が$k$に一致する唯一の位相である．すなわち：\\
+
+        \smallskip{}
+        　$\Ocal$を$X$の位相であって，その閉包作用子$A \mapsto \bar A$が$k$と一致するようなものとする．\\
+        % このとき$M \in \Ocal \iff M \in \Opens$が成り立つ．
+        　このとき$\Ocal = \Opens$が成り立つ．
+    \end{block}
+
+    $M$が$\Ocal$-開集合であることは，$M^c$の閉包が$M^c$自身に一致することと同値である．すなわち
+    \begin{equation*}
+        M \in \Ocal \iff k(M^c) = \overline{M^c} = M^c \iff M \in \Opens
+    \end{equation*}
+    が成り立つので，$\Ocal$は$\Opens$と等しい．\qed
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    \begin{exampleblock}{問15.6}
+        $X$を非空集合とし，写像$i \colon \power X \to \power X$は次の条件を満たすとする：
+        \begin{description}
+            \item[$\textbf{I}_1$:] $i(X) = X$
+            \item[$\textbf{I}_2$:] 各$A \in \power X$に対して$i(A) \subset A$
+            \item[$\textbf{I}_3$:] 各$A, B \in \power X$に対して$i(A \cup B) = i(A) \cap i(B)$
+            \item[$\textbf{I}_4$:] 各$A \in \power X$に対して$i(i(A)) = i(A)$
+        \end{description}
+        このときある$X$の位相$\Opens$が一意に存在して，$i$が$(X, \Opens)$の開核作用子に一致することを示せ．
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 定理15.3の双対．\qed
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$
+
+    \medskip{}
+
+    \begin{itemize}
+        \item $A$の補集合の内部$(A^c)^i$を$A$の\alert{外部} (exterior) といって$A^e$で表し，\\$A^e$の点を$A$の\alert{外点} (exterior point) という．
+        \item $A$の内点でも外点でもない点を$A$の\alert{境界点} (boundary point) といい，\\境界点全体の集合を$A$の\alert{境界} (boundary, frontier) といって$A^f$で表す．
+    \end{itemize}
+    \begin{block}{事実}
+        \centering
+        $X = A^i \cup A^e \cup A^f$.
+    \end{block}
+    \begin{itemize}
+        \item $x \in X$が$A - \qty{x}$の触点であるとき，$x$を$A$の\alert{集積点} (accumulation point) という．
+            $A$の集積点全体の集合を$A$の\alert{導集合} (derived set) といい$A^d$で表す．
+        \item $A - A^d$の点を$A$の\alert{孤立点} (isolated point) と呼ぶ．
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{\S 15 位相}
+    $(X, \Opens)$: 位相空間，$(Y, \Opens_Y) \subset (X, \Opens)$: 部分空間， \quad $A \subset Y$
+
+    \begin{exampleblock}{問15.7}
+        \begin{enumerate}
+            \item $(Y, \Opens_Y)$における$A$の閉包$A^{\vb a}$は，$(X, \Opens)$における閉包$A^a$と$Y$の共通部分$A^a \cap Y$に\\一致することを示せ．
+            \item $(Y, \Opens_Y)$における$A$の内部$A^{\vb i}$は，$(X, \Opens)$における内部$A^i$と$Y$の共通部分$A^i \cap Y$に\\一般には一致しないことを示せ．
+            \item $(Y, \Opens_Y)$における$A$の境界$A^{\vb f}$は，$(X, \Opens)$における境界$A^f$と$Y$の共通部分$A^f \cap Y$に\\一般には一致しないことを示せ．
+        \end{enumerate}
+    \end{exampleblock}
+
+    \medskip{}
+    参加者の課題とする．\qed
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    $(X, \Opens)$: 位相空間
+
+    \begin{block}{近傍}
+        \begin{itemize}
+            \item $N \subset X$が$a \in X$の\alert{近傍} (neighborhood) であるとは，$a$が$N$の内点となることをいう．
+            \item $a$の\alert{開近傍} (open ---) とは，$a$の開な近傍（つまり$a$を含む開集合）のことである．
+            \item $a$の\alert{近傍系} (neighborhood system) とは$a$の近傍全体の集合をいい，$\nbhs a$で表す．
+        \end{itemize}
+    \end{block}
+
+    \medskip{}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    $(X, \Opens)$: 位相空間
+
+    \begin{block}{定理16.1}
+        各$a \in X$について次が成り立つ
+        \begin{enumerate}
+            \item $X \in \nbhs a$
+            \item[1.5.] $N \in \nbhs a \implies a \in N$
+            \item $N_1, N_2 \in \nbhs a \implies N_1 \cap N_2 \in \nbhs a$
+            \item $N \in \nbhs a$かつ$N \subset M \subset X \implies M \in \nbhs a$ 
+            \item 任意の$N \in \nbhs a$に対してある$M \in \nbhs a$が存在し，各$b \in M$に対して$N \in \nbhs b$
+        \end{enumerate}
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明}
+    \medskip{}
+    \begin{enumerate}
+        \item $X$自身も開集合であることに注意すると，$a$は$X$の内点であるから$X$は$a$の近傍．
+        \item[1.5.] 自明．
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    $(X, \Opens)$: 位相空間
+
+    \begin{block}{定理16.1}
+        各$a \in X$について次が成り立つ
+        \begin{enumerate}
+            \item $X \in \nbhs a$
+            \item[1.5.] $N \in \nbhs a \implies a \in N$
+            \item $N_1, N_2 \in \nbhs a \implies N_1 \cap N_2 \in \nbhs a$
+            \item $N \in \nbhs a$かつ$N \subset M \subset X \implies M \in \nbhs a$ 
+            \item 任意の$N \in \nbhs a$に対してある$M \in \nbhs a$が存在し，各$b \in M$に対して$N \in \nbhs b$
+        \end{enumerate}
+    \end{block}
+
+    \medskip{}
+
+    \begin{enumerate}[2.]
+        \item[2.] $a \in N_1^i,\ a \in N_2^i$と定理15.1より$a \in (N_1^i \cap N_2^i) = (N_1 \cap N_2)^i$．
+        \item[3.] 自明．
+        \item[4.] $M = N^i$と取ればよい．\qed
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{block}{定理16.2}
+        $X$を非空集合とし，写像$h \colon X \to \power{\power X}$は次の\alert{ハウスドルフ} (Hausdorff) \alert{の公理系}を\\各$a \in X$に対して満たすとする：
+        \begin{description}[$\textbf{K}_{1.5}$:]
+            \item[$\textbf{H}_1$:] $X \in h(a)$
+            \item[$\textbf{H}_{1.5}$:] $U \in h(a) \implies a \in U$
+            \item[$\textbf{H}_2$:] $U_1, U_2 \in h(a) \implies U_1 \cap U_2 \in h(a)$
+            \item[$\textbf{H}_3$:] $U \in h(a)$かつ$U \subset V \subset X \implies V \in h(a)$
+            \item[$\textbf{H}_4$:] $\forall U \in h(a), \exists V \in h(a),\ \forall b \in V.\ U \in h(b)$
+        \end{description}
+
+        \medskip{}
+
+        このとき$X$の位相$\Opens$で，$(X, \Opens)$の各点$a$で$\nbhs a = h(a)$となるものがただ一つ存在する．
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 省略
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    $(X, \Opens)$: 位相空間， \quad $A \subset X$, \quad $x \in A$
+    \begin{block}{定理16.3}
+        $x \in \bar A \iff x$の各近傍が$A$と交わる．
+    \end{block}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad どちらも対偶を示す．
+    \medskip{}
+    \begin{description}[($\Rightarrow$)]
+        \item[($\Rightarrow$)] ある$N \in \nbhs x$が$A$と交わらなければ，$x \in N^i$かつ$A \subset X - N^i$である．\\
+            $X - N^i$は閉集合なので$\bar A \subset X - N^i$．よって$x \notin \bar A$．
+        \item[($\Leftarrow$)] $x \notin \bar A$と仮定すると，$U := X - \bar A$は$x$の開近傍であって$U \cap A = \varnothing$．\qed
+    \end{description}
+
+    \begin{exampleblock}{問16.1}
+        $\bar A = A \cup A^d$を示せ．
+    \end{exampleblock}
+    \fbox{\large 証明} \quad 省略
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{exampleblock}{問16.3}
+        $(X, d)$を距離空間とし，$\Opens$を$d$で定まる距離位相とする．
+        点$a \in X$について，$(X, d)$における$a$の近傍系と$(X, \Opens)$における$a$の近傍系が一致することを確かめよ．
+    \end{exampleblock}
+    \fbox{\large 証明} \quad 省略
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    $(X_1, \Opens_1),\ (X_2, \Opens_2)$: 位相空間
+
+    \medskip{}
+    写像$f \colon X_1 \to X_2$が$x \in X_1$で\alert{連続} (continuous) であるとは，\\
+    点$f(x) \in X_2$の任意の近傍$N$に対して，その逆像$f^\inv(N)$が$x$の近傍となることをいう．
+    \begin{block}{定理16.4}
+        写像$f \colon X_1 \to X_2$について以下は同値
+        \begin{enumerate}
+            \item $f$は$X_1$の各点で連続
+            \item $\Opens_2$-開集合$O$の$f$による逆像$f^\inv(O)$は$\Opens_1$-開集合
+            \item $\Opens_2$-閉集合$F$の$f$による逆像$f^\inv(F)$は$\Opens_1$-閉集合
+            \item 部分集合$A \subset X$に対して$f \qty(\bar A) \subset \overline{f(A)}$
+        \end{enumerate}
+    \end{block}
+
+    \vspace{-0.5em}
+    \begin{block}{連続写像}
+        写像$f \colon X_1 \to X_2$が定理の条件1--4のいずれかを満たすとき，$f$は連続であるといい，\\$f$を$(X_1, \Opens_1)$から$(X_2, \Opens_2)$への\alert{連続写像} (continuous map) と呼ぶ．
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{block}{定理16.4}
+        写像$f \colon X_1 \to X_2$について以下は同値
+        \begin{enumerate}
+            \item $f$は$X_1$の各点で連続
+            % \item $\Opens_2$-開集合$O$の$f$による逆像$f^\inv(O)$は$\Opens_1$-開集合
+            % \item $\Opens_2$-閉集合$F$の$f$による逆像$f^\inv(F)$は$\Opens_1$-閉集合
+            \item[4.] 部分集合$A \subset X$に対して$f \qty(\bar A) \subset \overline{f(A)}$
+        \end{enumerate}
+    \end{block}
+
+    \fbox{\large 証明} \quad $1 \Rightarrow 4 \Rightarrow 3 \Rightarrow 2 \Rightarrow 1$の順に示す．各々前件を仮定する．
+
+    \begin{description}[$1 \Rightarrow 4$:]
+        \item[$1 \Rightarrow 4$:] $y \in f(\bar A)$を任意に取ると，ある$x \in \bar A$により$y = f(x)$と表せる．\\
+            近傍$N \in \nbhs y$を任意に取ると，$f$は$x$で連続であるから$f^\inv(N)$は$x$の近傍である．\\
+            定理16.3より$f^\inv(N) \cap A \neq \varnothing$であるから，この共通部分から元$z$を1つ取る．\\
+            これは$f(z) \in f(A) \cap N$を満たすので，$f(A) \cap N \neq \varnothing$．\\よって定理16.3より$y \in \overline{f(A)}$．
+            % 対偶として$f(x) \notin \overline{f(A)} \implies f(x) \notin f(\bar A)$を示す．\\
+            % $A \subset X_1$と$x \in X_1$を取り，$f(x) \notin \overline{f(A)}$と仮定する．$N := X_2 - \overline{f(A)}$と取ると，\\
+            % $N$は$f(x)$の開近傍であるから，仮定より$f^\inv(N)$は$x$の近傍である．
+    \end{description}
+    \begin{block}{定理16.3}
+        $x \in \bar A \iff x$の各近傍が$A$と交わる．
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{block}{定理16.4}
+        写像$f \colon X_1 \to X_2$について以下は同値
+        \begin{enumerate}
+            % \item $f$は$X_1$の各点で連続
+            % \item $\Opens_2$-開集合$O$の$f$による逆像$f^\inv(O)$は$\Opens_1$-開集合
+            \item[3.] $\Opens_2$-閉集合$F$の$f$による逆像$f^\inv(F)$は$\Opens_1$-閉集合
+            \item[4.] 部分集合$A \subset X$に対して$f \qty(\bar A) \subset \overline{f(A)}$
+        \end{enumerate}
+    \end{block}
+
+    \begin{description}[$4 \Rightarrow 3$:]
+        \item[$4 \Rightarrow 3$:] 
+            $\Opens_2$-閉集合$F$を任意に取り，$A = f^\inv(F)$と置く．これが閉，つまり$\bar A = A$を示す．\\
+            仮定4より$f(\bar A) \subset \overline{f(A)}$が成り立つ．また一般に$f(A) = f(f^\inv (F)) \subset F$で，\\
+            $F$が閉集合だから$\overline{f(A)} \subset F$．よって$f(\bar A) \subset F$がわかる．
+            以上より
+            \begin{equation*}
+                \bar A \subset f^\inv(f(\bar A)) \subset f^\inv(F) = A.
+            \end{equation*}
+            一般に$A \subset \bar A$であるので，$\bar A = A$．
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{block}{定理16.4}
+        写像$f \colon X_1 \to X_2$について以下は同値
+        \begin{enumerate}
+            % \item $f$は$X_1$の各点で連続
+            \item[2.] $\Opens_2$-開集合$O$の$f$による逆像$f^\inv(O)$は$\Opens_1$-開集合
+            \item[3.] $\Opens_2$-閉集合$F$の$f$による逆像$f^\inv(F)$は$\Opens_1$-閉集合
+            % \item[4.] 部分集合$A \subset X$に対して$f \qty(\bar A) \subset \overline{f(A)}$
+        \end{enumerate}
+    \end{block}
+
+    \begin{description}[$4 \Rightarrow 3$:]
+        \item[$3 \Rightarrow 2$:] 
+            $\Opens_2$-開集合$O$を任意に取ると$O^c$は$\Opens_2$-閉集合で，仮定3より$f^\inv(O^c)$は$\Opens_1$-閉集合．\\
+            一般に$f^\inv(O^c) = \qty(f^\inv(O))^c$が成り立つから，$f^\inv(O)$は$\Opens_1$-開集合である．
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{block}{定理16.4}
+        写像$f \colon X_1 \to X_2$について以下は同値
+        \begin{enumerate}
+            \item $f$は$X_1$の各点で連続
+            \item[2.] $\Opens_2$-開集合$O$の$f$による逆像$f^\inv(O)$は$\Opens_1$-開集合
+            \item[3.] $\Opens_2$-閉集合$F$の$f$による逆像$f^\inv(F)$は$\Opens_1$-閉集合
+            \item[4.] 部分集合$A \subset X$に対して$f \qty(\bar A) \subset \overline{f(A)}$
+        \end{enumerate}
+    \end{block}
+
+    \begin{description}[$4 \Rightarrow 3$:]
+        \item[$2 \Rightarrow 1$:] 
+            点$x \in X_1$と近傍$N \in \nbhs{f(x)}$を任意に取り，$f^\inv(N) \in \nbhs x$を示す．\\
+            開集合$O := N^i$を取ると，$f(x) \in O$であるから$x \in f^\inv(O)$．\\仮定2より$f^\inv(O)$は$x$の$\Opens_1$-開近傍である．\\
+            さらに$O \subset N$だったから$x \in f^\inv(O) \subset f^\inv(N)$．よって$f^\inv(N)$は$x$の近傍．\qed
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{exampleblock}{問16.3}
+        $(X_1, d_1)$および$(X_2, d_2)$を距離空間とし，$\Opens_1, \Opens_2$をそれぞれ$d_1, d_2$で定まる距離位相とする．
+        このとき写像$f \colon X_1 \to X_2$が$(X_1, d_1)$から$(X_2, d_2)$への連続写像であることと\\$f$が$(X_1, \Opens_1)$から$(X_2, \Opens_2)$への連続写像であることが同値であることを確かめよ．
+    \end{exampleblock}
+    \medskip{}
+
+    \fbox{\large 証明} \quad 問15.4と定理14.2から明らか．\qed
+
+    \medskip{}
+    \begin{block}{定理14.2}
+        写像$f \colon (X_1, d_1) \to (X_2, d_2)$について以下は同値
+        \begin{enumerate}
+            \item $f$は$X_1$の各点で連続
+            \item[2.] $(X_2, d_2)$の開集合$O$の$f$による逆像$f^\inv(O)$は$(X_1, d_1)$の開集合
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{exampleblock}{例16.1}
+        位相空間と連続写像\begin{tikzcd} (X_1, \Opens_1) \arrow[r, "f"] & (X_2, \Opens_2) \arrow[r, "g"] & (X_3, \Opens_3) \end{tikzcd}に対して，$g \circ f$も連続写像．
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明}
+
+    \medskip{}
+
+    開集合$O \in \Opens_3$を任意に取ると，$(g \circ f)^\inv(O) = f^\inv(g^\inv(O))$．\\
+    $g$と$f$は連続なので，$g^\inv(O)$は$\Opens_2$-開集合，$f^\inv(g^\inv(O))$は$\Opens_1$-開集合である．\qed
+
+    \medskip{}
+
+    \begin{exampleblock}{例16.2}
+        位相空間$(X, \Opens)$とその部分空間$(A, \Opens_A)$に対して，包含写像$i \colon A \to X$は連続写像．
+    \end{exampleblock}
+    \medskip{}
+
+    \fbox{\large 証明} \quad 参加者の課題とする．
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    $(X_1, \Opens_1),\ (X_2, \Opens_2)$: 位相空間
+    \begin{block}{同相写像}
+        写像$f \colon X_1 \to X_2$が全単射で，特に\begin{tikzcd} (X_1, \Opens_1) \arrow[r, "f", yshift=2pt] & (X_2, \Opens_2) \arrow[l, "f^\inv", yshift=-2pt] \end{tikzcd}がどちらも連続であるとき，\\
+        $f$は$(X_1, \Opens_1)$から$(X_2, \Opens_2)$への\alert{同相写像} (homeomorphism) であるといい，
+        このような$f$が存在するとき，
+        $(X_1, \Opens_1)$と$(X_2, \Opens_2)$は\alert{同相}ないし\alert{位相同型} (homeomorphic) であるという．
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\S 16 近傍系と連続写像}
+    \begin{exampleblock}{問16.5}
+        位相空間$(X, \Opens)$と$(X', \Opens')$を取り，$\Opens$-閉集合$A, B \subset X$で$A \cup B = X$となるものを考える．\\
+        また写像$f\colon X \to X'$に対して，$f_A \colon A \to X'$と$f_B \colon B \to X'$をそれぞれ制限写像とする．\\
+        このとき以下が同値であることを示せ．
+        \begin{enumerate}
+            \item $f$は$(X, \Opens) \to (X', \Opens')$の連続写像
+            \item $f_A$は$(A, \Opens_A) \to (X', \Opens')$の連続写像で，かつ$f_B$は$(B, \Opens_B) \to (X', \Opens')$の連続写像
+        \end{enumerate}
+    \end{exampleblock}
+
+    \medskip{}
+
+    \fbox{\large 証明} \quad 参加者の課題とする．
+\end{frame}
+
+\end{document}
